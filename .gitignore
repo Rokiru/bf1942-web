@@ -1,0 +1,28 @@
+# Original proprietary game material — never publish
+*.rfa
+*.RFA
+*.exe
+*.EXE
+*.dll
+*.DLL
+*.bik
+*.BIK
+*.dds
+*.DDS
+*.wav
+*.WAV
+*.mp3
+*.MP3
+*.sm
+*.skn
+*.ske
+*.baf
+*.raw
+# Private source trees / generated output
+/game-data/
+/assets/private/
+/original-game/
+node_modules/
+dist/
+build/
+.DS_Store
