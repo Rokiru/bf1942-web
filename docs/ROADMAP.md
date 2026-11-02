@@ -7,13 +7,14 @@
 - Browser capability diagnostics and local-only RFA header inspection.
 - Accurate status: not playable, no original game resources provided.
 
-## Stage 1 — Read actual user-provided game files
+## Stage 1 — Read actual user-provided game files (PARTIAL: directory reader implemented)
 **Success condition:** Browse entries in a real `.rfa` archive; extract a `.con` file; read map metadata; preview a permitted DDS from local user files. No game files are uploaded to the public repo.
 
-- Validate RFA binary headers, tables, filenames, offsets and bounds.
+- Implemented: RFA 1.0/1.1 directory listing, filenames, offsets, input bounds checks, synthetic regression tests, and uncompressed CON text preview.
+- Pending: validation with real user-owned archives, LZO1X decompression, DDS textures and terrain.
 - Research LZO1X decompression and version/archive precedence.
 - Compare GPL-3.0 `librfa` and other references with a clean-room alternative; document licensing before reusing code.
-- Test only with original synthetic fixtures in the repository.
+- Run synthetic tests with `node --test tests/rfa.test.mjs`; do not commit copyrighted game files.
 
 ## Stage 2 — Prove game engine feasibility
 **Success condition:** Render an authentic map frame from locally supplied original resources on an Android browser.
