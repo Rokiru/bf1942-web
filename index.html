@@ -62,6 +62,15 @@
     .drop span {color:#b6c2ae;font-size:12px;line-height:1.5;display:block}
     .file-input {position:absolute;width:1px;height:1px;opacity:0}
     .fineprint {margin-top:13px!important;font-size:12px!important}
+    .archive-tools {display:none;margin-top:20px;padding:17px;border:1px solid #56654d;background:#121c15;}
+    .archive-tools.visible {display:block}
+    .archive-tools label {display:block;color:#d7daba;font:700 11px ui-monospace,monospace;letter-spacing:.09em;margin:14px 0 7px}
+    .archive-tools input,.archive-tools select {color:#eef0dd;background:#0d1610;border:1px solid #56654d;border-radius:2px;padding:12px;width:100%;min-height:44px;font:12px ui-monospace,monospace;}
+    .archive-tools select {height:170px;overflow:auto}
+    .archive-tools select option {padding:5px 3px}
+    .archive-tools pre {white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;font:11px/1.5 ui-monospace,monospace;background:#0b100c;border:1px solid #43503c;padding:12px;color:#d9dfcc}
+    .archive-status {font:11px/1.5 ui-monospace,monospace;color:var(--accent);margin-top:8px!important}
+    .archive-detail {font:11px/1.5 ui-monospace,monospace;color:#afbaa6;margin-top:8px!important}
     .list {margin:18px 0 0;padding:0;list-style:none;display:grid;gap:9px}
     .list li {display:flex;align-items:center;justify-content:space-between;gap:12px;font:12px ui-monospace,monospace;padding-bottom:8px;border-bottom:1px solid #344235;color:#e2e7d8}
     .list li span {overflow-wrap:anywhere}
@@ -126,14 +135,27 @@
     </div>
   </section>
   <section class="section wrap" id="status">
-    <div class="section-header"><div><div class="eyebrow">01 // DEVELOPMENT STATUS</div><h2>ОПЕРАЦИЯ НАЧАТА</h2><div class="statusline"><span class="pulse"></span> STAGE 0 / PROJECT FOUNDATION</div></div><p>Это стартовая страница настоящего исследовательского проекта, а не демоверсия игры. Сначала проверим браузер и научимся читать ресурсы оригинала.</p></div>
+    <div class="section-header"><div><div class="eyebrow">01 // DEVELOPMENT STATUS</div><h2>ОПЕРАЦИЯ НАЧАТА</h2><div class="statusline"><span class="pulse"></span> STAGE 1 / RFA DIRECTORY READER</div></div><p>Это исследовательский сайт, а не демоверсия игры. Можно читать каталог реального архива RFA локально на телефоне; игровой движок ещё не портирован.</p></div>
     <div class="grid">
-      <div class="card" id="files"><div class="card-top"><span class="kicker">01/A // GAME ASSETS</span><span class="number">LOCAL ONLY</span></div><h3>Выбери оригинальные файлы</h3><p>Можно выбрать несколько архивов .rfa из своей копии Battlefield 1942. Мы проверим названия и сигнатуры файлов. Сами ресурсы никуда не отправляются.</p>
+      <div class="card" id="files"><div class="card-top"><span class="kicker">01/A // GAME ASSETS</span><span class="number">LOCAL ONLY</span></div><h3>Выбери оригинальные файлы</h3><p>Выбери .rfa из собственной копии Battlefield 1942. Реальный каталог файлов архива появится ниже; данные остаются на устройстве.</p>
         <label class="drop" id="dropzone" for="gamefiles"><span class="drop-icon">+</span><span><strong>Выбрать файлы .RFA / .CON</strong><span>Нажми здесь и выбери файлы в памяти телефона. Загрузка на сервер не производится.</span></span></label>
-        <input class="file-input" type="file" id="gamefiles" multiple accept=".rfa,.con,.exe" aria-label="Выбрать игровые файлы">
+        <input class="file-input" type="file" id="gamefiles" multiple accept=".rfa,.con" aria-label="Выбрать игровые файлы">
         <ul class="list" id="file-list" aria-live="polite"><li><span>Файлы пока не выбраны</span><em>0</em></li></ul>
+        <div class="archive-tools" id="archive-tools">
+          <h3>Каталог оригинального архива</h3>
+          <p id="archive-status" class="archive-status" aria-live="polite">Выбери архив</p>
+          <label for="archive-picker">Выбрать архив</label>
+          <select id="archive-picker" aria-label="Архив для просмотра"></select>
+          <label for="entry-search">Поиск файла внутри архива</label>
+          <input id="entry-search" type="search" placeholder="Например: conquest.con" autocomplete="off">
+          <p id="archive-detail" class="archive-detail" aria-live="polite"></p>
+          <label for="entry-picker">Найденные файлы</label>
+          <select id="entry-picker" size="7" aria-label="Файлы в архиве"></select>
+          <button class="small-btn" id="preview-entry" type="button">Просмотреть текстовый файл</button>
+          <pre id="entry-preview" hidden aria-live="polite"></pre>
+        </div>
         <button class="small-btn" id="manifest" type="button">Скачать отчёт проверки</button>
-        <p class="fineprint">Важно: проверка файлов пока не запускает игру. Для полноценного порта нужны сам движок, рендеринг, звук и игровая логика.</p>
+        <p class="fineprint">Работает чтение каталога RFA 1.0/1.1 и предпросмотр несжатых .con. Сжатые LZO архивы пока только перечисляются. Для запуска игры нужны движок, графика, звук и игровая логика.</p>
       </div>
       <div class="card"><div class="card-top"><span class="kicker">01/B // BROWSER HARDWARE</span><span class="number">DEVICE CHECK</span></div><h3>Диагностика браузера</h3><p>Проверим технологии, которые могут пригодиться будущему игровому движку. Эта проверка ничего не устанавливает.</p>
         <div class="diag-grid" id="diagnostics"><div class="diag"><span>WEBASSEMBLY</span><b id="wasm">Ожидает</b></div><div class="diag"><span>WEBGL 2</span><b id="webgl">Ожидает</b></div><div class="diag"><span>WEBGPU</span><b id="webgpu">Ожидает</b></div><div class="diag"><span>WASM THREADS</span><b id="threads">Ожидает</b></div></div>
@@ -145,8 +167,8 @@
   <section class="section wrap" id="roadmap">
     <div class="section-header"><div><div class="eyebrow">02 // PROJECT ROADMAP</div><h2>ПУТЬ К ОРИГИНАЛУ</h2></div><p>Пять этапов. Каждый должен завершаться проверяемым результатом — без фальшивых «готово» и бесконечных заглушек.</p></div>
     <div class="road">
-      <div class="stage current"><span class="state">ACTIVE</span><div class="stage-num">00</div><h3>База проекта</h3><p>Страница, проверка браузера и проверка оригинальных игровых файлов.</p></div>
-      <div class="stage"><span class="state">NEXT</span><div class="stage-num">01</div><h3>Архивы и карты</h3><p>Чтение RFA, .con, terrain, моделей и текстур из копии игры.</p></div>
+      <div class="stage"><span class="state">DONE</span><div class="stage-num">00</div><h3>База проекта</h3><p>Страница, проверка браузера и проверка оригинальных игровых файлов.</p></div>
+      <div class="stage current"><span class="state">ACTIVE</span><div class="stage-num">01</div><h3>Архивы и карты</h3><p>Чтение RFA, .con, terrain, моделей и текстур из копии игры.</p></div>
       <div class="stage"><span class="state">PLANNED</span><div class="stage-num">02</div><h3>Движок и кадр</h3><p>Исследование переноса кода игры, рендера, звука и ввода в WebAssembly.</p></div>
       <div class="stage"><span class="state">PLANNED</span><div class="stage-num">03</div><h3>Сражение</h3><p>Оригинальные механики, оружие, техника, боты, захват флагов.</p></div>
       <div class="stage"><span class="state">PLANNED</span><div class="stage-num">04</div><h3>Полный запуск</h3><p>Карты, настройки, сохранения, мобильный интерфейс и исследование мультиплеера.</p></div>
@@ -155,10 +177,11 @@
   </section>
 </main>
 <footer><div class="wrap footer-inner"><span>BF1942 WEB · PROJECT OUTPOST · 2026</span><span>INDEPENDENT RESEARCH / NOT AFFILIATED WITH EA OR DICE</span></div></footer>
-<script>
+<script type="module">
+  import {parseRFA,previewTextEntry} from './rfa.mjs';
   'use strict';
   const $ = id => document.getElementById(id);
-  const good = (id, label, yes) => { const node=$(id); node.textContent=label;node.className=yes?'ok':'warning'; };
+  const good = (id, label, yes) => { const node=$(id); node.textContent=label; node.className=yes?'ok':'warning'; };
   async function diagnostics(){
     good('wasm',typeof WebAssembly !== 'undefined'?'Доступен':'Нет',typeof WebAssembly !== 'undefined');
     let gl=false;try{gl=!!document.createElement('canvas').getContext('webgl2')}catch{}
@@ -173,32 +196,71 @@
   diagnostics();
   const chosen=[];
   const pretty=n=>n>=1073741824?(n/1073741824).toFixed(2)+' ГБ':n>=1048576?(n/1048576).toFixed(1)+' МБ':(n/1024).toFixed(1)+' КБ';
-  const safeText=(t)=>document.createTextNode(String(t));
+  let scanToken=0;
+  const archives=()=>chosen.filter(r=>r.archive);
+  function renderEntries(){
+    const archive=archives()[Number($('archive-picker').value) || 0];
+    const select=$('entry-picker');select.replaceChildren();$('entry-preview').hidden=true;
+    if(!archive){$('archive-tools').classList.remove('visible');return;}
+    const a=archive.archive;
+    $('archive-status').textContent=archive.name+' • RFA '+a.version+' • '+a.count+' файлов • '+(a.compressed?'LZO / сжатый':'без сжатия');
+    const q=$('entry-search').value.trim().toLocaleLowerCase();
+    const matching=a.entries.filter(x=>x.path.toLocaleLowerCase().includes(q));
+    $('archive-detail').textContent=`Найдено: ${matching.length}. Показано: ${Math.min(200,matching.length)}. Файлы не покидают твой телефон.`;
+    matching.slice(0,200).forEach(entry=>{const o=document.createElement('option');o.value=String(a.entries.indexOf(entry));o.textContent=entry.path;select.append(o)});
+    const textEntry=Array.from(select.options).find(o=>/\.(con|inc|txt|cfg)$/i.test(a.entries[Number(o.value)]?.path||''));
+    if(textEntry)select.value=textEntry.value;
+    $('preview-entry').disabled=!select.options.length;
+  }
+  function renderArchives(){
+    const picker=$('archive-picker');picker.replaceChildren();
+    archives().forEach((x,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=x.name;picker.append(o)});
+    $('archive-tools').classList.toggle('visible',archives().length>0);
+    $('entry-search').value='';renderEntries();
+  }
   async function scan(list){
-    chosen.length=0;
-    for(const f of Array.from(list).slice(0,500)){
+    const token=++scanToken;chosen.length=0;
+    const files=Array.from(list).slice(0,20);
+    const ul=$('file-list');ul.replaceChildren();
+    const loading=document.createElement('li');loading.textContent='Читаем локальные каталоги RFA…';ul.append(loading);
+    for(const f of files){
       const ext=(f.name.split('.').pop()||'').toLowerCase();
       const row={name:f.name,size:f.size,kind:ext,status:'Обнаружен'};
       if(ext==='rfa'){
-        try { const bytes=new DataView(await f.slice(0,4).arrayBuffer());const magic=bytes.byteLength===4?bytes.getUint32(0,true):0;row.status=magic===0x00a6c23a?'RFA: сигнатура совпадает':'RFA: сигнатура не подтверждена';}
-        catch{row.status='Не удалось прочитать заголовок';}
-      }else if(ext==='con'){row.status='Скрипт .con (без разбора)';}
-      else if(ext==='exe'){row.status='EXE (анализ не выполняется)';}
-      else{row.status='Неизвестный формат';}
+        try {
+          row.archive=await parseRFA(f);row.file=f;
+          row.status=`RFA ${row.archive.version}: ${row.archive.count} файлов`;
+        }catch(error){row.status='Ошибка архива: '+(error?.message||'неизвестный формат');}
+      }else if(ext==='con'){row.status='Скрипт .con';}
+      else{row.status='Формат не поддерживается';}
+      if(token!==scanToken)return;
       chosen.push(row);
     }
-    const ul=$('file-list');ul.replaceChildren();
-    chosen.slice(0,30).forEach(r=>{const li=document.createElement('li');const s=document.createElement('span');s.append(safeText(r.name+' · '+pretty(r.size)));const em=document.createElement('em');em.append(safeText(r.status));li.append(s,em);ul.append(li);});
-    if(chosen.length>30){const li=document.createElement('li');li.textContent='И ещё '+(chosen.length-30)+' файлов';ul.append(li)}
+    ul.replaceChildren();
+    chosen.forEach(r=>{const li=document.createElement('li');const s=document.createElement('span');s.textContent=r.name+' · '+pretty(r.size);const em=document.createElement('em');em.textContent=r.status;li.append(s,em);ul.append(li)});
     if(!chosen.length){const li=document.createElement('li');li.textContent='Не выбраны игровые файлы';ul.append(li)}
-    $('manifest').style.display=chosen.length?'inline-block':'none';
+    if(list.length>20){const li=document.createElement('li');li.textContent='Проанализированы первые 20 файлов. Выбери меньшую группу для остальных.';ul.append(li)}
+    $('manifest').style.display=chosen.length?'inline-block':'none';renderArchives();
   }
+  $('archive-picker').addEventListener('change',()=>{$('entry-search').value='';renderEntries()});
+  $('entry-search').addEventListener('input',renderEntries);
+  $('preview-entry').addEventListener('click',async()=>{
+    const selected=archives()[Number($('archive-picker').value)||0];
+    const entry=selected?.archive.entries[Number($('entry-picker').value)];
+    const output=$('entry-preview');output.hidden=false;
+    if(!selected||!entry){output.textContent='Выбери файл';return;}
+    try{output.textContent=await previewTextEntry(selected.file,selected.archive,entry)}
+    catch(error){output.textContent=error?.message||'Файл не удалось прочитать'}
+  });
   $('gamefiles').addEventListener('change',e=>scan(e.target.files));
   const zone=$('dropzone');
   zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag')});
   zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
   zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');if(e.dataTransfer?.files)scan(e.dataTransfer.files)});
-  $('manifest').addEventListener('click',()=>{const data={generated:new Date().toISOString(),note:'Only names, sizes, and basic signature checks. No game content.',files:chosen};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='bf1942-files-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),1000)});
+  $('manifest').addEventListener('click',()=>{
+    const data={generated:new Date().toISOString(),note:'Local file metadata and RFA filenames only; no game assets or executable data.',files:chosen.map(x=>({name:x.name,size:x.size,status:x.status,version:x.archive?.version,count:x.archive?.count,compressed:x.archive?.compressed,entries:x.archive?.entries.map(e=>({path:e.path,size:e.uncompressedSize}))}))};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='bf1942-files-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),1000);
+  });
 </script>
 </body>
 </html>
