@@ -2,21 +2,23 @@
 
 Independent research project exploring how to run the **original PC game Battlefield 1942 (2002)** in a modern web browser, with a focus on Android touch controls.
 
-**State: Stage 0 / project foundation. This is not a playable port.** The site is a responsive project page with browser feature diagnostics and local game archive header checks. No game engine, rendering of original maps, AI, sound, gameplay, or multiplayer has been implemented yet.
+**State: Stage 1 / partial RFA reader. NOT a playable game.** Browser-based archive directory listing implemented, but compatibility is tested only using synthetic `.rfa` files so far. No game engine, original map rendering, AI, sound, gameplay, or multiplayer is implemented.
 
 ## What's functional now
 
 - Responsive Russian-language project home page, compatible with GitHub Pages.
 - Browser diagnostics: WebAssembly, WebGL 2, WebGPU adapter, and cross-origin isolation for WASM threads.
-- Local-only `.rfa`, `.con`, `.exe` file selection; file-size reporting and best-effort first-four-bytes RFA header check.
-- Manifest download in JSON, containing only file names, sizes, and checks. No files are transmitted or uploaded.
+- Local-only `.rfa` and `.con` file selection; supports RFA directory formats **1.0 and 1.1** and searches embedded filenames.
+- Text preview for **uncompressed** `.con` / `.inc` / `.txt` / `.cfg` entries (512 KiB cap). **LZO-compressed entries are not yet extracted.**
+- Metadata/report download as JSON. No local game files are transmitted or uploaded.
+- Synthetic non-proprietary tests: `node --test tests/rfa.test.mjs`.
 
 ## Publish on GitHub Pages (Android-friendly)
 
-1. Sign in to GitHub and create a **public** repository, for example `bf1942-web`.
-2. Tap **Add file → Upload files**; upload `index.html` and `README.md` from this starter package to the repository root. Commit to `main`.
+1. This public repository is already created: [Rokiru/bf1942-web](https://github.com/Rokiru/bf1942-web).
+2. Repo already includes `index.html`, `rfa.mjs`, `README.md`, and synthetic parser tests; no manual upload is needed.
 3. Go to **Settings → Pages → Build and deployment**. Choose **Deploy from a branch**, branch `main`, folder `/(root)` and save.
-4. When GitHub finishes publishing, the page should be available at `https://Rokiru.github.io/bf1942-web/`.
+4. Once GitHub Pages reports a successful deployment, open `https://rokiru.github.io/bf1942-web/`.
 5. For development, keep game data outside the public repository.
 
 No deployment workflow or paid server is required for the static project page.
@@ -27,7 +29,7 @@ See [docs/ROADMAP.md](docs/ROADMAP.md) for the feasibility gates. Options to res
 
 - Original PC executable analysis and game-version identification.
 - Browser-compatible static recompilation **if feasible**, or a carefully scoped interoperable engine implementation if not; neither is accomplished yet.
-- RFA reading (LZO), `.con` configs, terrain, meshes (`.sm`), DDS and other game formats.
+- Full RFA LZO1X extraction, `.con` configs, terrain, meshes (`.sm`), DDS and other game formats.
 - Rendering, gameplay simulation, vehicle physics, AI and audio, all checked against the original game.
 - Touch controls, performance profiling, optional separate multiplayer server (GitHub Pages cannot host that server).
 
