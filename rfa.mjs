@@ -75,3 +75,43 @@ export async function previewTextEntry(file, archive, entry) {
   if (entry.dataOffset + entry.uncompressedSize > file.size) fail('Файл выходит за пределы архива');
   return encoder.decode(await file.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer());
 }
+
+
+const MAX_DECOMPRESSED_ENTRY = 64 * 1024 * 1024;
+let lzoModulePromise;
+async function getLzoDecoder() {
+  if (!lzoModulePromise) {
+    lzoModulePromise = import('https://cdn.jsdelivr.net/npm/lzo1x@1.0.1/+esm')
+      .then(module => module.lzo1xDecompress ? module : module.default)
+      .catch(() => { lzoModulePromise = null; throw new RfaFormatError('Не удалось загрузить LZO-декодер. Проверь интернет и повтори.'); });
+  }
+  return lzoModulePromise;
+}
+
+/** Read one entry's payload. Compressed RFA blocks store a 32-bit compressed length before LZO data. */
+export async function readRfaEntry(file, archive, entry, maxOutput = MAX_DECOMPRESSED_ENTRY) {
+  if (!archive || !entry || !archive.entries.includes(entry)) fail('Выберите запись архива');
+  if (entry.uncompressedSize > maxOutput) fail('Файл превышает лимит распаковки (' + Math.round(maxOutput / 1048576) + ' МБ)');
+  if (!archive.compressed) {
+    if (entry.dataOffset + entry.uncompressedSize > file.size) fail('Файл выходит за пределы архива');
+    return new Uint8Array(await file.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer());
+  }
+  if (entry.dataOffset + 4 + entry.compressedSize > file.size) fail('Сжатый блок выходит за пределы архива');
+  const prefix = new Uint8Array(await file.slice(entry.dataOffset, entry.dataOffset + 4).arrayBuffer());
+  const storedLength = new DataView(prefix.buffer, prefix.byteOffset, 4).getUint32(0, true);
+  const compressedLength = entry.compressedSize || storedLength;
+  if (!compressedLength || compressedLength > file.size - entry.dataOffset - 4) fail('Некорректный размер LZO-блока');
+  const input = new Uint8Array(await file.slice(entry.dataOffset + 4, entry.dataOffset + 4 + compressedLength).arrayBuffer());
+  const decoder = await getLzoDecoder();
+  let output;
+  try { output = decoder.lzo1xDecompress(input, entry.uncompressedSize); }
+  catch (error) { fail('LZO1X: распаковка не удалась (' + (error?.message || 'повреждённый блок') + ')'); }
+  if (!(output instanceof Uint8Array) || output.length !== entry.uncompressedSize) fail('LZO1X: размер результата не совпадает с каталогом RFA');
+  return output;
+}
+
+export async function previewTextEntry(file, archive, entry) {
+  if (!/\\.(con|inc|txt|cfg|log|xml)$/i.test(entry.path)) fail('Предпросмотр доступен только для текстовых файлов');
+  const bytes = await readRfaEntry(file, archive, entry, MAX_PREVIEW);
+  return encoder.decode(bytes);
+}
