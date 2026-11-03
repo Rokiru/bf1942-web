@@ -312,9 +312,11 @@ $("test-device").addEventListener("click",diagnostics);
 diagnostics();
 const pretty=n=>n>=1073741824?(n/1073741824).toFixed(2)+" ГБ":n>=1048576?(n/1048576).toFixed(1)+" МБ":(n/1024).toFixed(1)+" КБ";
 let scanToken=0;
+let gameFiles=[];
 async function scan(list){
   const token=++scanToken;
   const files=Array.from(list||[]);
+  gameFiles=files;
   const ul=$("file-list");ul.replaceChildren();
   $("scan-summary").hidden=true;
   if(!files.length){$("scan-state").textContent="Папка не выбрана";return;}
