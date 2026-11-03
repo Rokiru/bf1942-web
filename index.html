@@ -286,7 +286,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
         <button class="small-btn" id="extract-entry" type="button">Сохранить выбранный файл</button><pre id="entry-preview" hidden aria-live="polite"></pre>
       </div>
       <button class="small-btn" id="manifest" type="button" style="display:none">Скачать отчёт проверки</button>
-      <p class="fineprint">Доступны каталог RFA 1.0/1.1 и предпросмотр несжатых .con. LZO1X пока не реализован. Исполняемые файлы, игровые текстуры и архивы не загружаются в GitHub.</p>
+      <p class="fineprint">Доступны каталог RFA 1.0/1.1 и предпросмотр несжатых .con. LZO1X распаковывается локально; модуль декодера загружается из CDN при первом использовании. Исполняемые файлы, игровые текстуры и архивы не загружаются в GitHub.</p>
     </div>
     <div class="panel">
       <div class="panel-top"><span>03-B / DEVICE CHECK</span><span>ANDROID TEST</span></div>
@@ -302,7 +302,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
 </main>
 <footer><div class="wrap footer-inner"><span>BF1942 WEB / FIELD TEST / 2026</span><span>Independent research · no affiliation with EA or DICE</span><span><a href="https://github.com/Rokiru/bf1942-web" target="_blank" rel="noopener noreferrer">Source repository ↗</a></span></div></footer>
 <script type="module">
-import {parseRFA,previewTextEntry} from "./rfa.mjs";
+import {parseRFA,previewTextEntry,readRfaEntry} from "./rfa.mjs";
 const $ = id => document.getElementById(id);
 const good = (id,label,yes) => {const node=$(id);node.textContent=label;node.className=yes?"ok":"warning";};
 async function diagnostics(){
@@ -370,11 +370,15 @@ $("extract-entry").addEventListener("click",()=>{
   const selected=archives()[Number($("archive-picker").value)||0];
   const entry=selected?.archive.entries[Number($("entry-picker").value)];
   if(!selected||!entry){$("archive-status").textContent="Сначала выбери файл";return;}
-  if(selected.archive.compressed){$("archive-status").textContent="Архив сжат LZO1X — извлечение пока не поддерживается";return;}
-  if(entry.uncompressedSize>512*1024*1024){$("archive-status").textContent="Файл слишком большой";return;}
-  const blob=selected.file.slice(entry.dataOffset,entry.dataOffset+entry.uncompressedSize);
+  if(entry.uncompressedSize>64*1024*1024){$("archive-status").textContent="Пока ограничиваем извлечение файла 64 МБ для защиты памяти телефона";return;}
+  $("extract-entry").disabled=true;
+  $("archive-status").textContent=selected.archive.compressed?"Распаковываем LZO1X…":"Готовим файл…";
+  readRfaEntry(selected.file,selected.archive,entry,64*1024*1024).then(bytes=>{
+    const blob=new Blob([bytes]);
   const href=URL.createObjectURL(blob);const link=document.createElement("a");link.href=href;link.download=entry.path.split("/").pop()||"rfa-entry.bin";link.click();setTimeout(()=>URL.revokeObjectURL(href),1500);
-  $("archive-status").textContent="Файл сохранён локально: "+entry.path;
+    $("archive-status").textContent="Файл подготовлен: "+entry.path;
+  }).catch(error=>{$("archive-status").textContent=error?.message||"Не удалось извлечь файл";})
+    .finally(()=>{$("extract-entry").disabled=false;});
 });
 $("preview-entry").addEventListener("click",async()=>{
   const selected=archives()[Number($("archive-picker").value)||0];
