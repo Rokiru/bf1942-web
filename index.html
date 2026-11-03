@@ -268,32 +268,25 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
 </section>
 
 <section class="section wrap" id="lab">
-  <div class="section-head"><div><div class="section-no">03 / LOCAL FILE LAB</div><h2>Исследование архивов</h2></div><p>Первый технический инструмент: чтение каталога RFA 1.0/1.1 на устройстве. Сейчас это просмотр структуры, а не полноценная распаковка игровых ресурсов.</p></div>
+  <div class="section-head"><div><div class="section-no">03 / GAME LIBRARY</div><h2>Подключение игры</h2></div><p>Один раз укажи папку с оригинальными файлами. Сайт сам просканирует вложенные каталоги и найдёт игровые архивы.</p></div>
   <div class="lab-layout">
     <div class="panel">
-      <div class="panel-top"><span>03-A / GAME DATA</span><span>LOCAL ONLY</span></div>
-      <h3>Выбери архивы игры</h3><p>Выбери .RFA или .CON из собственной установленной копии. Файлы читаются прямо в браузере и никуда не загружаются.</p>
-      <label class="dropzone" id="dropzone" for="gamefiles"><span class="drop-icon">+</span><span><strong>Выбрать .RFA / .CON</strong><span>Нажми, чтобы открыть файловый менеджер телефона или компьютера.</span></span></label>
-      <input class="file-input" type="file" id="gamefiles" multiple accept=".rfa,.con" aria-label="Выбрать игровые файлы">
-      <ul class="file-list" id="file-list" aria-live="polite"><li><span>Файлы ещё не выбраны</span><em>0</em></li></ul>
-      <div class="archive-tools" id="archive-tools">
-        <h3>Каталог выбранного RFA</h3><p id="archive-status" class="archive-status" aria-live="polite">Выбери архив</p>
-        <label for="archive-picker">Архив</label><select id="archive-picker" aria-label="Архив для просмотра"></select>
-        <label for="entry-search">Поиск внутри архива</label><input id="entry-search" type="search" placeholder="Например: conquest.con" autocomplete="off">
-        <p id="archive-detail" class="archive-detail" aria-live="polite"></p>
-        <label for="entry-picker">Файлы в архиве</label><select id="entry-picker" size="7" aria-label="Файлы в архиве"></select>
-        <button class="small-btn" id="preview-entry" type="button">Просмотреть текстовый файл</button>
-        <button class="small-btn" id="extract-entry" type="button">Сохранить выбранный файл</button><pre id="entry-preview" hidden aria-live="polite"></pre>
-      </div>
-      <button class="small-btn" id="manifest" type="button" style="display:none">Скачать отчёт проверки</button>
-      <p class="fineprint">Доступны каталог RFA 1.0/1.1 и предпросмотр несжатых .con. LZO1X распаковывается локально; модуль декодера загружается из CDN при первом использовании. Исполняемые файлы, игровые текстуры и архивы не загружаются в GitHub.</p>
+      <div class="panel-top"><span>03-A / LOCAL GAME DATA</span><span>ON-DEVICE SCAN</span></div>
+      <h3>Папка Battlefield 1942</h3>
+      <p>Выбери корневую папку игры. Мы автоматически проверим вложенные папки и каталоги ресурсов. Содержимое остаётся на устройстве.</p>
+      <label class="dropzone" id="dropzone" for="gamefiles"><span class="drop-icon">＋</span><span><strong>Выбрать папку игры</strong><span>Открой папку Battlefield 1942 целиком — отдельные файлы выбирать не придётся.</span></span></label>
+      <input class="file-input" type="file" id="gamefiles" multiple webkitdirectory directory aria-label="Выбрать папку с файлами игры">
+      <div class="scan-state" id="scan-state" aria-live="polite">Ожидает подключения папки игры</div>
+      <ul class="file-list" id="file-list" aria-live="polite"><li><span>Папка ещё не выбрана</span><em>—</em></li></ul>
+      <div class="scan-summary" id="scan-summary" hidden></div>
+      <p class="fineprint">Это автоматическое обнаружение файлов и проверка структуры. Игровой движок и запуск одиночной кампании ещё предстоит реализовать. Никакие игровые данные не отправляются на сервер.</p>
     </div>
     <div class="panel">
-      <div class="panel-top"><span>03-B / DEVICE CHECK</span><span>ANDROID TEST</span></div>
-      <h3>Возможности браузера</h3><p>Проверяем базовые API, которые могут пригодиться будущей версии движка. Результат не гарантирует, что игра уже запустится.</p>
+      <div class="panel-top"><span>03-B / DEVICE CHECK</span><span>ANDROID TARGET</span></div>
+      <h3>Проверка устройства</h3><p>Проверяем графические и вычислительные возможности браузера для будущего игрового движка.</p>
       <div class="diag-grid"><div class="diag"><span>WEBASSEMBLY</span><b id="wasm">Ожидает</b></div><div class="diag"><span>WEBGL 2</span><b id="webgl">Ожидает</b></div><div class="diag"><span>WEBGPU</span><b id="webgpu">Ожидает</b></div><div class="diag"><span>WASM THREADS</span><b id="threads">Ожидает</b></div></div>
       <button class="small-btn" id="test-device" type="button">Повторить диагностику ↻</button>
-      <p class="fineprint" id="diag-info" aria-live="polite">Поддержка API — только предварительная проверка.</p>
+      <p class="fineprint" id="diag-info" aria-live="polite">Проверка API не означает, что игра уже запускается.</p>
     </div>
   </div>
 </section>
@@ -302,7 +295,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
 </main>
 <footer><div class="wrap footer-inner"><span>BF1942 WEB / FIELD TEST / 2026</span><span>Independent research · no affiliation with EA or DICE</span><span><a href="https://github.com/Rokiru/bf1942-web" target="_blank" rel="noopener noreferrer">Source repository ↗</a></span></div></footer>
 <script type="module">
-import {parseRFA,previewTextEntry,readRfaEntry} from "./rfa.mjs";
+import {parseRFA} from "./rfa.mjs";
 const $ = id => document.getElementById(id);
 const good = (id,label,yes) => {const node=$(id);node.textContent=label;node.className=yes?"ok":"warning";};
 async function diagnostics(){
@@ -317,77 +310,56 @@ async function diagnostics(){
 }
 $("test-device").addEventListener("click",diagnostics);
 diagnostics();
-const chosen=[];
 const pretty=n=>n>=1073741824?(n/1073741824).toFixed(2)+" ГБ":n>=1048576?(n/1048576).toFixed(1)+" МБ":(n/1024).toFixed(1)+" КБ";
 let scanToken=0;
-const archives=()=>chosen.filter(row=>row.archive);
-function renderEntries(){
-  const archive=archives()[Number($("archive-picker").value)||0];
-  const select=$("entry-picker");select.replaceChildren();$("entry-preview").hidden=true;
-  if(!archive){$("archive-tools").classList.remove("visible");return;}
-  const a=archive.archive;
-  $("archive-status").textContent=archive.name+" · RFA "+a.version+" · "+a.count+" файлов · "+(a.compressed?"LZO / сжатый":"без сжатия");
-  const q=$("entry-search").value.trim().toLocaleLowerCase();
-  const matching=a.entries.filter(entry=>entry.path.toLocaleLowerCase().includes(q));
-  $("archive-detail").textContent="Найдено: "+matching.length+". Показано: "+Math.min(200,matching.length)+". Файлы остаются на устройстве.";
-  matching.slice(0,200).forEach(entry=>{const option=document.createElement("option");option.value=String(a.entries.indexOf(entry));option.textContent=entry.path;select.append(option);});
-  const firstText=Array.from(select.options).find(option=>/\.(con|inc|txt|cfg)$/i.test(a.entries[Number(option.value)]?.path||""));
-  if(firstText)select.value=firstText.value;
-  $("preview-entry").disabled=!select.options.length;
-}
-function renderArchives(){
-  const picker=$("archive-picker");picker.replaceChildren();
-  archives().forEach((row,index)=>{const option=document.createElement("option");option.value=String(index);option.textContent=row.name;picker.append(option);});
-  $("archive-tools").classList.toggle("visible",archives().length>0);
-  $("entry-search").value="";renderEntries();
-}
 async function scan(list){
-  const token=++scanToken;chosen.length=0;
-  const files=Array.from(list).slice(0,20);
+  const token=++scanToken;
+  const files=Array.from(list||[]);
   const ul=$("file-list");ul.replaceChildren();
-  const loading=document.createElement("li");loading.textContent="Читаем локальные каталоги RFA…";ul.append(loading);
-  for(const file of files){
-    const ext=(file.name.split(".").pop()||"").toLowerCase();
-    const row={name:file.name,size:file.size,kind:ext,status:"Обнаружен"};
-    if(ext==="rfa"){
-      try{row.archive=await parseRFA(file);row.file=file;row.status="RFA "+row.archive.version+": "+row.archive.count+" файлов";}
-      catch(error){row.status="Ошибка архива: "+(error?.message||"неизвестный формат");}
-    }else if(ext==="con"){row.status="Скрипт .con";}
-    else{row.status="Формат не поддерживается";}
-    if(token!==scanToken)return;
-    chosen.push(row);
+  $("scan-summary").hidden=true;
+  if(!files.length){$("scan-state").textContent="Папка не выбрана";return;}
+  const totalBytes=files.reduce((sum,file)=>sum+file.size,0);
+  const rfaFiles=files.filter(file=>/\.rfa$/i.test(file.name));
+  const conFiles=files.filter(file=>/\.(con|inc)$/i.test(file.name));
+  const otherFiles=files.length-rfaFiles.length-conFiles.length;
+  $("scan-state").textContent="Найдено "+files.length+" файлов · анализируем игровые архивы…";
+  const progress=document.createElement("li");progress.textContent="Сканирование каталогов RFA…";ul.append(progress);
+  const results=[];
+  let cursor=0,done=0;
+  async function worker(){
+    while(cursor<rfaFiles.length){
+      const file=rfaFiles[cursor++];
+      let result={file,path:file.webkitRelativePath||file.name,status:"Проверка не пройдена"};
+      try{
+        const archive=await parseRFA(file);
+        result={file,path:file.webkitRelativePath||file.name,status:"RFA "+archive.version,entries:archive.count,compressed:archive.compressed};
+      }catch(error){result.status="Ошибка: "+(error?.message||"неизвестный формат");}
+      results.push(result);done++;
+      if(token!==scanToken)return;
+      $("scan-state").textContent="Автоматический анализ: "+done+" / "+rfaFiles.length+" архивов";
+    }
   }
+  await Promise.all(Array.from({length:Math.min(3,rfaFiles.length)},()=>worker()));
+  if(token!==scanToken)return;
   ul.replaceChildren();
-  chosen.forEach(row=>{const li=document.createElement("li");const name=document.createElement("span");name.textContent=row.name+" · "+pretty(row.size);const status=document.createElement("em");status.textContent=row.status;li.append(name,status);ul.append(li);});
-  if(!chosen.length){const li=document.createElement("li");li.textContent="Не выбраны игровые файлы";ul.append(li);}
-  if(list.length>20){const li=document.createElement("li");li.textContent="Проверены первые 20 файлов. Выбери меньшую группу для остальных.";ul.append(li);}
-  $("manifest").style.display=chosen.length?"inline-block":"none";
-  renderArchives();
+  const valid=results.filter(item=>item.entries!==undefined);
+  const totalEntries=valid.reduce((sum,item)=>sum+item.entries,0);
+  const lines=[
+    {label:"Папка",value:(files[0]?.webkitRelativePath||"").split("/")[0]||"Выбранная папка"},
+    {label:"Всего файлов",value:String(files.length)},
+    {label:"Архивы RFA",value:valid.length+" / "+rfaFiles.length+" распознано"},
+    {label:"Записи внутри архивов",value:totalEntries.toLocaleString("ru-RU")},
+    {label:"Скрипты CON / INC",value:String(conFiles.length)},
+    {label:"Общий объём",value:pretty(totalBytes)}
+  ];
+  lines.forEach(item=>{const li=document.createElement("li");const name=document.createElement("span");name.textContent=item.label;const value=document.createElement("em");value.textContent=item.value;li.append(name,value);ul.append(li);});
+  const summary=$("scan-summary");summary.hidden=false;
+  const failed=results.filter(item=>item.entries===undefined).length;
+  summary.textContent=valid.length
+    ? "Папка подключена. Найдено "+valid.length+" читаемых RFA-архивов и "+totalEntries.toLocaleString("ru-RU")+" записей. "+(failed?failed+" архивов не удалось распознать.":"Ошибок чтения RFA нет.")
+    : "Папка просканирована, но читаемые RFA-архивы не найдены. Проверь, что выбрана корневая папка установленной игры.";
+  $("scan-state").textContent="Сканирование завершено";
 }
-$("archive-picker").addEventListener("change",()=>{$("entry-search").value="";renderEntries();});
-$("entry-search").addEventListener("input",renderEntries);
-$("extract-entry").addEventListener("click",()=>{
-  const selected=archives()[Number($("archive-picker").value)||0];
-  const entry=selected?.archive.entries[Number($("entry-picker").value)];
-  if(!selected||!entry){$("archive-status").textContent="Сначала выбери файл";return;}
-  if(entry.uncompressedSize>64*1024*1024){$("archive-status").textContent="Пока ограничиваем извлечение файла 64 МБ для защиты памяти телефона";return;}
-  $("extract-entry").disabled=true;
-  $("archive-status").textContent=selected.archive.compressed?"Распаковываем LZO1X…":"Готовим файл…";
-  readRfaEntry(selected.file,selected.archive,entry,64*1024*1024).then(bytes=>{
-    const blob=new Blob([bytes]);
-  const href=URL.createObjectURL(blob);const link=document.createElement("a");link.href=href;link.download=entry.path.split("/").pop()||"rfa-entry.bin";link.click();setTimeout(()=>URL.revokeObjectURL(href),1500);
-    $("archive-status").textContent="Файл подготовлен: "+entry.path;
-  }).catch(error=>{$("archive-status").textContent=error?.message||"Не удалось извлечь файл";})
-    .finally(()=>{$("extract-entry").disabled=false;});
-});
-$("preview-entry").addEventListener("click",async()=>{
-  const selected=archives()[Number($("archive-picker").value)||0];
-  const entry=selected?.archive.entries[Number($("entry-picker").value)];
-  const output=$("entry-preview");output.hidden=false;
-  if(!selected||!entry){output.textContent="Выбери файл";return;}
-  try{output.textContent=await previewTextEntry(selected.file,selected.archive,entry);}
-  catch(error){output.textContent=error?.message||"Файл не удалось прочитать";}
-});
 $("gamefiles").addEventListener("change",event=>scan(event.target.files));
 const zone=$("dropzone");
 zone.addEventListener("dragover",event=>{event.preventDefault();zone.classList.add("drag");});
