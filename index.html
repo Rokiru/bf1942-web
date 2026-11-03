@@ -171,7 +171,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
 <header>
   <div class="wrap navbar">
     <a class="brand" href="#top" aria-label="BF1942 WEB, наверх"><span class="brand-mark">42</span><span>BF<span style="color:var(--sand)">1942</span> <em>WEB</em></span></a>
-    <nav class="navlinks" aria-label="Основная навигация"><a href="#download">Игра</a><a href="#controls">Управление</a><a href="#lab">Файлы</a><a href="#roadmap">Разработка</a></nav>
+    <nav class="navlinks" aria-label="Основная навигация"><a href="#download">Игра</a><a href="#controls">Управление</a><a href="#lab">Файлы</a></nav>
     <span class="nav-state">FIELD TEST / PRE-ALPHA</span>
   </div>
 </header>
@@ -218,7 +218,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
   </div>
 </section>
 <div class="data-strip"><div class="wrap data-grid">
-  <div class="data-cell"><span>Source target</span><strong>PC release · 2002</strong></div>
+  <div class="data-cell"><span>Source target</span><strong>Original release · 2002</strong></div>
   <div class="data-cell"><span>Primary device</span><strong>Android / Chromium</strong></div>
   <div class="data-cell"><span>Current milestone</span><strong>RFA reader · partial</strong></div>
   <div class="data-cell"><span>Gameplay status</span><strong>Not playable yet</strong></div>
@@ -228,13 +228,13 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
   <div class="section-head"><div><div class="section-no">01 / ORIGINAL COPY</div><h2>Нужна сама игра</h2></div><p>Для проверки форматов мы выбрали Battlefield 1942: World War II Anthology — сборник с обеими официальными дополнениями. Сайт проекта не хранит и не раздаёт игровые файлы.</p></div>
   <div class="download-grid">
     <div class="download-main">
-      <div class="small-cap">REFERENCE BUILD / WINDOWS</div>
+      <div class="small-cap">ORIGINAL GAME FILES</div>
       <h3>Battlefield 1942: World War II Anthology</h3>
       <p>Страница внешнего архива My Abandonware. Там описаны состав Anthology, установщик Team SiMPLE и дополнительные файлы. Скачивание и установка происходят не на нашем сайте.</p>
       <a class="action primary" href="https://www.myabandonware.com/game/battlefield-1942-world-war-ii-anthology-p1y" target="_blank" rel="noopener noreferrer">Открыть страницу My Abandonware <span aria-hidden="true">↗</span></a>
     </div>
     <div class="download-side">
-      <div class="download-note"><h3>Что понадобится для теста</h3><p>После установки на Windows нужны файлы из папки <b>Mods/bf1942/</b>, прежде всего архивы .RFA. В браузере можно выбрать их локально — они не отправляются на сервер. Сам Windows-установщик на Android не запустится.</p></div>
+      <div class="download-note"><h3>Что понадобится для теста</h3><p>Нужны файлы из папки <b>Mods/bf1942/</b> вашей копии игры, прежде всего архивы .RFA. Выберите их локально в браузере — они не отправляются на сервер.</p></div>
       <div class="caution"><b>Внешний неофициальный источник.</b> My Abandonware не является EA или DICE. Мы не проверяем и не гарантируем законность распространения размещённых там файлов в вашей стране. Используйте копию игры, которую вы вправе иметь и тестировать.</div>
     </div>
   </div>
@@ -282,7 +282,8 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
         <label for="entry-search">Поиск внутри архива</label><input id="entry-search" type="search" placeholder="Например: conquest.con" autocomplete="off">
         <p id="archive-detail" class="archive-detail" aria-live="polite"></p>
         <label for="entry-picker">Файлы в архиве</label><select id="entry-picker" size="7" aria-label="Файлы в архиве"></select>
-        <button class="small-btn" id="preview-entry" type="button">Просмотреть текстовый файл</button><pre id="entry-preview" hidden aria-live="polite"></pre>
+        <button class="small-btn" id="preview-entry" type="button">Просмотреть текстовый файл</button>
+        <button class="small-btn" id="extract-entry" type="button">Сохранить выбранный файл</button><pre id="entry-preview" hidden aria-live="polite"></pre>
       </div>
       <button class="small-btn" id="manifest" type="button" style="display:none">Скачать отчёт проверки</button>
       <p class="fineprint">Доступны каталог RFA 1.0/1.1 и предпросмотр несжатых .con. LZO1X пока не реализован. Исполняемые файлы, игровые текстуры и архивы не загружаются в GitHub.</p>
@@ -297,17 +298,7 @@ footer{padding:25px 0;border-top:1px solid #363c2f;background:#0b0d0a;color:#878
   </div>
 </section>
 
-<section class="section wrap" id="roadmap">
-  <div class="section-head"><div><div class="section-no">04 / DEVELOPMENT</div><h2>Дальше — ближе к игре</h2></div><p>Не выдаём макет за порт. Каждый этап получит статус «готово» только после проверки на настоящих игровых данных и в браузере.</p></div>
-  <div class="road">
-    <article class="road-step"><div class="road-state">DONE / BASE</div><div class="road-num">00</div><h3>Основа и сайт</h3><p>Страница, локальная диагностика и файловая лаборатория.</p></article>
-    <article class="road-step active"><div class="road-state">ACTIVE / PARTIAL</div><div class="road-num">01</div><h3>RFA и ресурсы</h3><p>Каталог RFA; дальше — реальная проверка архивов и LZO1X.</p></article>
-    <article class="road-step"><div class="road-state">NEXT</div><div class="road-num">02</div><h3>Кадр из карты</h3><p>Исследовать форматы terrain, моделей, DDS и рендер оригинальной карты.</p></article>
-    <article class="road-step"><div class="road-state">PLANNED</div><div class="road-num">03</div><h3>Игровая логика</h3><p>Движение, стрельба, техника, столкновения, боты и Conquest.</p></article>
-    <article class="road-step"><div class="road-state">PLANNED</div><div class="road-num">04</div><h3>Полный порт</h3><p>Карты, звук, сенсорный HUD, сохранения и исследование сетевой игры.</p></article>
-  </div>
-  <div class="disclaimer"><span aria-hidden="true">!</span><span><b>Независимый фанатский технический проект.</b> Не связан с Electronic Arts или DICE. Мы не размещаем игровые исполняемые файлы, архивы, карты, музыку, звуки, текстуры или модели. GitHub Pages служит только для статического сайта; многопользовательскому режиму понадобится отдельный сервер и отдельная проверка совместимости.</span></div>
-</section>
+
 </main>
 <footer><div class="wrap footer-inner"><span>BF1942 WEB / FIELD TEST / 2026</span><span>Independent research · no affiliation with EA or DICE</span><span><a href="https://github.com/Rokiru/bf1942-web" target="_blank" rel="noopener noreferrer">Source repository ↗</a></span></div></footer>
 <script type="module">
@@ -375,6 +366,16 @@ async function scan(list){
 }
 $("archive-picker").addEventListener("change",()=>{$("entry-search").value="";renderEntries();});
 $("entry-search").addEventListener("input",renderEntries);
+$("extract-entry").addEventListener("click",()=>{
+  const selected=archives()[Number($("archive-picker").value)||0];
+  const entry=selected?.archive.entries[Number($("entry-picker").value)];
+  if(!selected||!entry){$("archive-status").textContent="Сначала выбери файл";return;}
+  if(selected.archive.compressed){$("archive-status").textContent="Архив сжат LZO1X — извлечение пока не поддерживается";return;}
+  if(entry.uncompressedSize>512*1024*1024){$("archive-status").textContent="Файл слишком большой";return;}
+  const blob=selected.file.slice(entry.dataOffset,entry.dataOffset+entry.uncompressedSize);
+  const href=URL.createObjectURL(blob);const link=document.createElement("a");link.href=href;link.download=entry.path.split("/").pop()||"rfa-entry.bin";link.click();setTimeout(()=>URL.revokeObjectURL(href),1500);
+  $("archive-status").textContent="Файл сохранён локально: "+entry.path;
+});
 $("preview-entry").addEventListener("click",async()=>{
   const selected=archives()[Number($("archive-picker").value)||0];
   const entry=selected?.archive.entries[Number($("entry-picker").value)];
