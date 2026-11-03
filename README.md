@@ -28,25 +28,9 @@ The HUD editor is currently a **layout configurator and preview**, not live game
 
 The project page is static and does not require a paid server. A future multiplayer service would require separate infrastructure.
 
-## Engineering roadmap
+## Current development
 
-See [docs/ROADMAP.md](docs/ROADMAP.md) for feasibility gates. The next engineering work is to validate the RFA parser against real, user-provided archives and implement/test LZO1X extraction before attempting map data and rendering.
-
-Longer-term areas to investigate:
-
-- Identify and document a supported original PC executable/version.
-- Evaluate static x86-to-WASM translation and Win32/Direct3D compatibility, or a carefully scoped interoperable engine. Neither is implemented.
-- RFA LZO1X extraction, configs, terrain, meshes (`.sm`), DDS and other file formats.
-- Original map rendering, gameplay simulation, vehicle physics, AI and audio.
-- Wire the saved touch layouts into an actual game HUD and profile performance on Android.
-- Investigate multiplayer separately; GitHub Pages cannot host a game server.
-
-## Useful technical references
-
-- [RefractorForge](https://github.com/luccawulf/RefractorForge) — open-source map editor / archive format reference; GPL-3.0, not a browser game engine.
-- [librfa](https://github.com/c0d3m4nc3r/librfa) — C library for RFA archives; GPL-3.0. Its licence obligations must be assessed before incorporating code.
-- [Battlefield 1942 original game file layout](https://bfmods.com/mdt/Tutorials/Overview/Overview.html).
-- [NFSU2 browser port](https://github.com/th0mk/nfsu2-web) — architectural inspiration, not a drop-in engine.
+The site and touch HUD configurator are prototypes. Next: validate RFA parsing with locally selected archives and expand local extraction/preview. Then inspect the original map's resource formats and test rendering on Android. No game engine or playable port exists yet.
 
 ## Rights and safety
 
