@@ -365,10 +365,6 @@ const zone=$("dropzone");
 zone.addEventListener("dragover",event=>{event.preventDefault();zone.classList.add("drag");});
 zone.addEventListener("dragleave",()=>zone.classList.remove("drag"));
 zone.addEventListener("drop",event=>{event.preventDefault();zone.classList.remove("drag");if(event.dataTransfer?.files)scan(event.dataTransfer.files);});
-$("manifest").addEventListener("click",()=>{
-  const data={generated:new Date().toISOString(),note:"Local file metadata and RFA filenames only; no game assets or executable data.",files:chosen.map(row=>({name:row.name,size:row.size,status:row.status,version:row.archive?.version,count:row.archive?.count,compressed:row.archive?.compressed,entries:row.archive?.entries.map(entry=>({path:entry.path,size:entry.uncompressedSize}))}))};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const href=URL.createObjectURL(blob);const link=document.createElement("a");link.href=href;link.download="bf1942-files-report.json";link.click();setTimeout(()=>URL.revokeObjectURL(href),1000);
-});
 </script>
 <script type="module" src="./touch-controls.js"></script>
 </body>
